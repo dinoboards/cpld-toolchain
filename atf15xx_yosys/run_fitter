@@ -1,0 +1,122 @@
+#!/bin/bash
+
+set -e
+
+DEFAULT_DEVICE=ATF1508AS
+DEFAULT_PACKAGE=PLCC84
+SPEED=15
+
+usage() {
+    echo "Usage: $0 [-h] [-s <speed>] <name> [ fitter options ]" 1>&2
+    echo 1>&2
+    echo "Defaults:" 1>&2
+    echo "  <speed>   = ${SPEED}"   1>&2
+    echo 1>&2
+    echo "additional options are passed through to the fitter"
+    exit 1;
+}
+
+while getopts ":hd:p:s:" o; do
+    case "${o}" in
+        h)
+            usage
+            ;;
+        s)
+            SPEED=${OPTARG}
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+NAME=$1; shift
+
+# Additional fitter options passed through
+OPTS=$*
+
+
+## Atmel foldback = Altera shareable expander
+## Atmel cascade = Altera parallel expander
+
+## Fitter Defaults
+# Device_name = PQFP100
+# Tech_name = ATF1508AS
+# Package_type = PQFP
+# Preassignment = try
+# Security_mode = OFF
+# Pin-Keeper = OFF
+# supporter = ABEL
+# optimize = ON
+# Xor_synthesis = OFF
+# Foldback_logic = OFF
+# Cascade_logic = OFF
+# Output_fast = ON
+# SSTL_input = off
+# Power down pin 1 = OFF
+# Power down pin 2 = OFF
+# power_reset = OFF
+# JTAG = ON
+# TDI pullup = OFF
+# TMS pullup = OFF
+# MC_power = OFF
+# Open_collector = OFF
+# ITD0 = ON
+# ITD1 = ON
+# ITD2 = ON
+# Fast_inlatch = off
+# Latch_synthesis = off
+# Push_gate = on
+# Verilog_sim = off
+# VHDL_sim = off
+# Out_Edif = off
+# Logic Doubling = off
+
+
+grep '//PIN:' ${NAME}.v | cut -d' ' -f2- > ./bin/${NAME}.pin
+
+DEVICE=$(grep -oP '(?<=//DEVICE: ).*' ${NAME}.v || echo "")
+PACKAGE=$(grep -oP '(?<=//PACKAGE: ).*' ${NAME}.v || echo "")
+if [ "$DEVICE" == "F1502ISPPLCC44" ]; then
+  DEVICE="ATF1502AS"
+  PACKAGE="PLCC44"
+else
+  DEVICE=${DEFAULT_DEVICE}
+  PACKAGE=${DEFAULT_PACKAGE}
+fi
+
+
+FITTER=fit${DEVICE//[!0-9]/}.exe
+
+echo "Name:     ${NAME}"
+echo "Device:   ${DEVICE}"
+echo "Package:  ${PACKAGE}"
+while IFS= read -r line; do
+  strategy=$(echo "$line" | grep -oP '(?<=//STRATEGY: ).*')
+  echo "          ${strategy}"
+  OPTS="$OPTS -strategy $strategy"
+done < <(grep '//STRATEGY: ' ${NAME}.v)
+
+rm -f ./bin/${NAME}.fit
+
+wine ${FITTERDIR}\\${FITTER} \
+     --preassign keep \
+     -i ./bin/${NAME}.edif \
+     -ifmt edif \
+     -o ./bin/${NAME}.jed \
+     -lib ${FITTERDIR}\\aprim.lib \
+     -tech ${DEVICE} \
+     -device ${PACKAGE} \
+     -tpd ${SPEED} \
+      ${OPTS}
+
+grep "^   " ./bin/${NAME}.fit
+echo
+
+echo "Logic Array Block       Macro Cells     I/O Pins        Foldbacks       TotalPT         FanIN           Cascades"
+grep "^[A-H]:" ./bin/${NAME}.fit
+echo
+
+grep "^Total"  ./bin/${NAME}.fit | sed "s/input pins \t/input pins/" | sed "s/Pts \t/Pts/"
+echo
+
+grep "^\$Device"  ./bin/${NAME}.fit
+echo

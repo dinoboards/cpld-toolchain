@@ -1,0 +1,176 @@
+
+*******************************************************************************
+                                      U1
+*******************************************************************************
+
+CUPL(WM)        5.0a Serial# MW-10400000
+Device          f1502ispplcc44  Library DLIB-h-40-1
+Created         Fri Feb 21 10:56:27 2025
+Name            U1 
+Partno          ATF1502 
+Revision        01 
+Date            01/28/24 
+Designer        Dean 
+Company         Dinoboards 
+Assembly        None 
+Location        Here 
+
+===============================================================================
+                            Expanded Product Terms
+===============================================================================
+
+COUNTER =>
+    P0 , P1 , P2 , P3 , P4 , P5 , P6 , P7 , P8 , P9
+
+P0.d  =>
+    !P0 & !P1 & !P2 & !P7
+  # !P0 & !P1 & !P2 & !P5 & !P6
+  # !P0 & !P3 & !P7
+  # !P0 & !P3 & !P5 & !P6
+
+P0.ck  =>
+    CLOCK
+
+P1.d  =>
+    P0 & !P1 & !P3 & !P7
+  # !P0 & P1 & !P3 & !P7
+  # P0 & !P1 & !P3 & !P5 & !P6
+  # !P0 & P1 & !P3 & !P5 & !P6
+
+P1.ck  =>
+    CLOCK
+
+P2.d  =>
+    P0 & P1 & !P2 & !P3 & !P7
+  # !P0 & P2 & !P3 & !P7
+  # P0 & P1 & !P2 & !P3 & !P5 & !P6
+  # !P1 & P2 & !P3 & !P7
+  # !P0 & P2 & !P3 & !P5 & !P6
+  # !P1 & P2 & !P3 & !P5 & !P6
+
+P2.ck  =>
+    CLOCK
+
+P3.d  =>
+    P0 & P1 & P2 & !P3 & !P7
+  # !P0 & !P1 & !P2 & P3 & !P7
+  # P0 & P1 & P2 & !P3 & !P5 & !P6
+  # !P0 & !P1 & !P2 & P3 & !P5 & !P6
+
+P3.ck  =>
+    CLOCK
+
+P4.d  =>
+    P0 & !P1 & !P2 & P3 & !P4 & !P5 & !P6
+  # !P0 & !P1 & !P2 & P4 & !P5 & !P6
+  # P0 & !P1 & !P2 & P3 & !P4 & !P7
+  # !P0 & !P1 & !P2 & P4 & !P7
+  # !P3 & P4 & !P7
+  # !P3 & P4 & !P5 & !P6
+
+P4.ck  =>
+    CLOCK
+
+P5.d  =>
+    P0 & !P1 & !P2 & P3 & P4 & !P5 & !P7
+  # !P1 & !P2 & !P4 & P5 & !P7
+  # !P0 & !P1 & !P2 & P5 & !P7
+  # !P3 & P5 & !P7
+
+P5.ck  =>
+    CLOCK
+
+P6.d  =>
+    P0 & !P1 & !P2 & P3 & P4 & P5 & !P6 & !P7
+  # !P1 & !P2 & !P5 & P6 & !P7
+  # !P1 & !P2 & !P4 & P6 & !P7
+  # !P0 & !P1 & !P2 & P6 & !P7
+  # !P3 & P6 & !P7
+
+P6.ck  =>
+    CLOCK
+
+P7.d  =>
+    P0 & !P1 & !P2 & P3 & P4 & P5 & P6 & !P7
+  # !P1 & !P2 & !P4 & !P5 & !P6 & P7
+  # !P0 & !P1 & !P2 & !P5 & !P6 & P7
+  # !P3 & !P5 & !P6 & P7
+
+P7.ck  =>
+    CLOCK
+
+P8.d  =>
+    P0 & !P1 & !P2 & P3 & P4 & !P5 & !P6 & P7 & !P8
+  # !P0 & !P1 & !P2 & !P5 & !P6 & P8
+  # !P1 & !P2 & !P7 & P8
+  # !P1 & !P2 & !P4 & !P5 & !P6 & P8
+  # !P3 & !P7 & P8
+  # !P3 & !P5 & !P6 & P8
+
+P8.ck  =>
+    CLOCK
+
+P9.d  =>
+    P0 & !P1 & !P2 & P3 & P4 & !P5 & !P6 & P7 & P8 & !P9
+  # !P0 & !P1 & !P2 & !P5 & !P6 & P9
+  # !P1 & !P2 & !P5 & !P6 & !P8 & P9
+  # !P1 & !P2 & !P7 & P9
+  # !P1 & !P2 & !P4 & !P5 & !P6 & P9
+  # !P3 & !P7 & P9
+  # !P3 & !P5 & !P6 & P9
+
+P9.ck  =>
+    CLOCK
+
+SIGNAL =>
+    !P0 & !P1 & !P2 & !P3 & !P4 & !P5 & !P6 & !P7 & !P8 & !P9
+
+
+===============================================================================
+                                 Symbol Table
+===============================================================================
+
+Pin Variable                                    Pterms   Max     Min    
+Pol   Name              Ext     Pin     Type     Used   Pterms  Level   
+--- --------            ---     ---     ----    ------  ------  -----   
+
+    CLOCK                       43       V        -       -       -     
+    COUNTER                     0        F        -       -       -     
+    P0                          45       N        -       -       -     
+    P0                  d       45       M        4       0       4     
+    P0                  ck      45       M        1       0       1     
+    P1                          46       N        -       -       -     
+    P1                  d       46       M        4       0       4     
+    P1                  ck      46       M        1       0       1     
+    P2                          47       N        -       -       -     
+    P2                  d       47       M        6       0       4     
+    P2                  ck      47       M        1       0       1     
+    P3                          48       N        -       -       -     
+    P3                  d       48       M        4       0       4     
+    P3                  ck      48       M        1       0       1     
+    P4                          49       N        -       -       -     
+    P4                  d       49       M        6       0       4     
+    P4                  ck      49       M        1       0       1     
+    P5                          50       N        -       -       -     
+    P5                  d       50       M        4       0       4     
+    P5                  ck      50       M        1       0       1     
+    P6                          51       N        -       -       -     
+    P6                  d       51       M        5       0       4     
+    P6                  ck      51       M        1       0       1     
+    P7                          52       N        -       -       -     
+    P7                  d       52       M        4       0       4     
+    P7                  ck      52       M        1       0       1     
+    P8                          53       N        -       -       -     
+    P8                  d       53       M        6       0       4     
+    P8                  ck      53       M        1       0       1     
+    P9                          54       N        -       -       -     
+    P9                  d       54       M        7       0       4     
+    P9                  ck      54       M        1       0       1     
+    SIGNAL                      37       V        1       0       4     
+
+
+LEGEND    D : default variable         F : field      G : group
+          I : intermediate variable    N : node       M : extended node
+          U : undefined                V : variable   X : extended variable
+          T : function
+

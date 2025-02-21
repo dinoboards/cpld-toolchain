@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# todo make diagram helper script
+# yosys -p 'prep; show -format svg' spike.v
+# mv ~/.yosys_show.svg ./spike.svg
+
+
+export ROOT=$(dirname $0)
+
+NAME=$1; shift
+
+yosys -Q -q <<EOF
+read_liberty -lib ${ROOT}/cells.lib
+read_verilog ${NAME}.v
+stat
+tribuf
+synth -flatten -noabc -top ${NAME}
+techmap -map ${ROOT}/techmap.v -D skip_DFFE_XX_
+simplemap
+dfflibmap -liberty ${ROOT}/cells.lib
+abc -liberty ${ROOT}/cells.lib
+iopadmap -bits -inpad INBUF Q:A -outpad BUF A:Q -toutpad TRI ENA:A:Q -tinoutpad bibuf EN:Q:A:PAD
+clean
+hierarchy
+stat
+splitnets -format _
+rename -wire -suffix _reg t:*DFF*
+rename -wire -suffix _comb
+write_edif -top -lsbidx ./bin/${NAME}.edif
+EOF
+
+

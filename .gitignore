@@ -1,0 +1,14 @@
+Wincupl
+bin
+*.abs
+*.fit
+*.io
+*.jed
+*.mx
+*.pin
+*.pla
+*.sim
+*.tt2
+*.tt3
+*.log
+

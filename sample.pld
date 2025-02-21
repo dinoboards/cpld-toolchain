@@ -1,0 +1,60 @@
+/* build with  */
+
+Name     U1 ;
+PartNo   ATF1502 ;
+Date     01/28/24 ;
+Revision 01 ;
+Designer Dean ;
+Company  Dinoboards ;
+Assembly None ;
+Location Here ;
+Device   F1502ISPPLCC44 ;
+
+
+property   atmel {cascade_logic  on   };
+property   atmel {fast_inlatch   on   };
+property   atmel {foldback_logic on   };
+property   atmel {logic_doubling on   };
+property   atmel {optimize       on   };
+property   atmel {output_fast    ON   };
+property   atmel {pin_keep       off   };
+property   atmel {preassign      TRY   };
+property   atmel {security       off   };
+property   atmel {xor_synthesis  ON   };
+
+
+
+/** inputs **/
+PIN 43 = CLOCK;
+
+/** outputs **/
+
+PIN 37 = SIGNAL;
+
+node P0;
+node P1;
+node P2;
+node P3;
+node P4;
+node P5;
+node P6;
+node P7;
+node P8;
+node P9;
+
+/** variables **/
+FIELD COUNTER = [P0..P9];
+
+/** equations **/
+COUNTER.CK = CLOCK;
+/* COUNTER.AR = RESET; */
+
+SEQUENCE COUNTER {
+  $REPEAT i = [0..799]
+  PRESENT {i} NEXT {(i+1)};
+  $REPEND
+  PRESENT 800 next 1;
+}
+
+SIGNAL = COUNTER:800;
+
