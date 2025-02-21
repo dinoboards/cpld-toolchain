@@ -2,7 +2,7 @@
 #
 # before running docker build, prepare the  Wincupl files and the updated fitters exes
 #
-# docker build  --progress plain -t dinoboards/wincupl:0.0.6 .
+# docker build  --progress plain -t dinoboards/atf15:0.0.6 .
 #
 # from within the ez80-for-rc/hardware directory
 # docker run -v ${PWD}:/work -e CHOWN=$(id -u ${USER}):$(id -g ${USER}) -it dinoboards/wincupl:0.0.6 sample
@@ -63,15 +63,11 @@ COPY Wincupl/WinCupl/Fitters/fit1504.exe  /opt/atf15xx_yosys/vendor/
 COPY Wincupl/WinCupl/Fitters/fit1508.exe  /opt/atf15xx_yosys/vendor/
 COPY atf15xx_yosys/run_fitter /opt/atf15xx_yosys/run_fitter
 COPY atf15xx_yosys/run_yosys /opt/atf15xx_yosys/run_yosys
-COPY make-jed /opt/wincupl/make-jed
+COPY cupld /opt/wincupl/cupld
 COPY 5vcomp /opt/wincupl/5vcomp
 
 ENV PATH=/opt/wincupl/:opt/atf15xx_yosys:/opt/atf15xx_yosys/vendor/:$PATH
 
-# RUN adduser --disabled-password --gecos "" builder
-# RUN chown -R builder:builder /Wincupl
-
-# USER builder
 ENV XDG_RUNTIME_DIR="/root"
 
 ENV WINEPATH="z:\\Wincupl\\WINCUPL\\EXE\\;z:\\Wincupl\\Shared\\;z:\\WinCupl\\WINCUPL\\FITTERS\\"

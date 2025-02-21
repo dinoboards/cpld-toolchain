@@ -1,15 +1,34 @@
 
-## ATF150x CPLD Toolchain
+## CPLD Toolchain
 
-This repo contains a docker file that will build a tool chain for compiling PLD with Wincupl or verilog files with yosys for the ATF150x CPLD devices
+This repo contains a docker file that will build a tool chain for compiling PLD with Wincupl or verilog files with yosys for the ATF150x CPLD devices,
+and PLD devices
 
-To Build
+To Build Docker image
 
-`docker build .`
+```
+docker build  --progress plain -t cpld-toolchain .
+```
 
+Thereafter to run:
 
+```
+docker run -v ${PWD}:/work -e CHOWN=$(id -u ${USER}):$(id -g ${USER}) -it cpld-toolchain cupld <your pld file>
+```
 
-## Prerequisite for bilding Docker image
+you can also create an alias to make this easier:
+
+```
+alias cupld='docker run -v ${PWD}:/work -e CHOWN=$(id -u ${USER}):$(id -g ${USER}) -it cpld-toolchain cupld'
+```
+
+Once an alias is created you can this do something like:
+
+```
+cupld sample
+```
+
+## Prerequisite for building Docker image
 
 Before attempting to run `docker build .`, you need to prepare the Wincupl directory.
 
